@@ -1,288 +1,551 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]><html class="ie ie6" lang="en"> <![endif]-->
-<!--[if IE 7]><html class="ie ie7" lang="en"> <![endif]-->
-<!--[if IE 8]><html class="ie ie8" lang="en"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!-->
-<html lang="fa" dir="rtl">
-  <!--<![endif]-->
-
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1"
-    />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <meta name="keywords" content="" />
-
-    <title>Focker</title>
-
-    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
-
-    <!-- <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.3.0/css/font-awesome.min.css"> -->
-
-    <link rel="stylesheet" type="text/css" href="css/stroke.css" />
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="css/animate.css" />
-    <link rel="stylesheet" type="text/css" href="css/prettyPhoto.css" />
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
-
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="js/syntax-highlighter/styles/shCore.css"
-      media="all"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="js/syntax-highlighter/styles/shThemeRDark.css"
-      media="all"
-    />
-
-    <link rel="stylesheet" type="text/css" href="css/custom.css" />
-    <style>
-      body {
-        margin: 0;
-        font-family: "Vazir";
-      }
-      .image-container {
-        width: 150px;
-        height: 150px;
-        position: relative;
-        overflow: hidden;
-        float: left;
-        padding: 10px;
-      }
-
-      .image-container img {
-        background-size: cover;
-        background-position: center;
-        width: 100%;
-        height: 90%;
-        top: 0;
-        left: 0;
-      }
-
-      /* Clearfix to clear the float */
-      .clearfix::after {
-        content: "";
-        clear: both;
-        display: table;
-      }
-
-      @font-face {
-        font-family: "Vazir";
-        src: url("./fonts/vazir-font-v18.0.0/Vazir.eot");
-        src: url("./fonts/vazir-font-v18.0.0/Vazir.eot?#iefix")
-            format("embedded-opentype"),
-          url("./fonts/vazir-font-v18.0.0/Vazir.woff") format("woff"),
-          url("./fonts/vazir-font-v18.0.0/Vazir.ttf") format("truetype");
-        font-weight: normal;
-        font-style: normal;
-        font-display: swap;
-      }
-
-      @media screen and (max-width: 100px) {
-        .image {
-          width: 50%;
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focker.ir - Docker Proxy Mirror</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#346eca',
+                    }
+                }
+            }
         }
-      }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        body[dir="rtl"] {
+            font-family: 'Vazirmatn', 'Inter', sans-serif;
+        }
+        .language-selector {
+            position: relative;
+        }
+        .language-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            min-width: 120px;
+        }
+        .language-selector:hover .language-dropdown {
+            display: block;
+        }
+        .language-dropdown:hover {
+            display: block;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .code-block {
+            position: relative;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .code-block:hover .copy-btn {
+            opacity: 1;
+        }
+        .copied {
+            background-color: #10b981 !important;
+        }
+        [dir="rtl"] {
+            direction: rtl;
+        }
+        [dir="ltr"] {
+            direction: ltr;
+        }
     </style>
-  </head>
+</head>
+<body class="bg-gray-50 min-h-screen" id="body">
+    <!-- Header -->
+    <header class="bg-primary text-white shadow-md">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                    <i class="fab fa-docker text-3xl"></i>
+                    <h1 class="text-2xl font-bold">Focker.ir</h1>
+                </div>
+                <div class="flex items-center space-x-6 rtl:space-x-reverse">
+                    <nav class="hidden md:flex space-x-6 rtl:space-x-reverse">
+                        <a href="#usage" class="hover:text-blue-200 transition" data-translate="nav_usage">Usage</a>
+                        <a href="#benefits" class="hover:text-blue-200 transition" data-translate="nav_benefits">Benefits</a>
+                        <a href="#faq" class="hover:text-blue-200 transition" data-translate="nav_faq">FAQ</a>
+                    </nav>
+                    <div class="language-selector relative">
+                        <button class="flex items-center space-x-1 px-3 py-1 rounded-md bg-blue-600 hover:bg-blue-700 transition rtl:space-x-reverse">
+                            <i class="fas fa-globe"></i>
+                            <span id="current-language">English</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="language-dropdown hidden absolute bg-white rounded-md shadow-lg z-10">
+                            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-blue-50" onclick="changeLanguage('fa')">فارسی</a>
+                            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-blue-50" onclick="changeLanguage('en')">English</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
-  <body>
-    <button onclick="topFunction()" id="myBtn" title="Go to top">
-      <i class="fa fa-chevron-up" aria-hidden="true"></i>
-    </button>
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-primary to-blue-500 text-white py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-4" data-translate="hero_title">Docker Proxy Mirror</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto" data-translate="hero_subtitle">Accelerate your Docker pulls with Focker.ir proxy mirror in Iran and nearby regions</p>
+            <div class="flex justify-center space-x-4 rtl:space-x-reverse">
+                <a href="#usage" class="bg-white text-primary px-6 py-3 rounded-md font-medium hover:bg-blue-50 transition" data-translate="hero_button1">Get Started</a>
+                <a href="#faq" class="border-2 border-white px-6 py-3 rounded-md font-medium hover:bg-white hover:text-primary transition" data-translate="hero_button2">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Usage Section -->
+    <section id="usage" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800" data-translate="usage_title">How to Use Focker.ir</h2>
+            
+            <div class="max-w-4xl mx-auto">
+                <!-- Tabs -->
+                <div class="flex border-b border-gray-200 mb-8 rtl:flex-row-reverse">
+                    <button class="tab-btn active py-3 px-6 font-medium text-primary border-b-2 border-primary" data-tab="pull" data-translate="tab_pull">Pull Command</button>
+                    <button class="tab-btn py-3 px-6 font-medium text-gray-500 hover:text-primary" data-tab="daemon" data-translate="tab_daemon">Daemon Config</button>
+                    <button class="tab-btn py-3 px-6 font-medium text-gray-500 hover:text-primary" data-tab="compose" data-translate="tab_compose">Docker Compose</button>
+                    <button class="tab-btn py-3 px-6 font-medium text-gray-500 hover:text-primary" data-tab="k8s" data-translate="tab_k8s">Kubernetes</button>
+                </div>
+                
+                <!-- Tab Contents -->
+                <div class="tab-content active" id="pull">
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800" data-translate="pull_title">Direct Pull Command</h3>
+                        <p class="mb-4 text-gray-600" data-translate="pull_description">Simply prefix your image name with <code class="bg-gray-200 px-1 py-0.5 rounded">focker.ir/</code> when pulling images:</p>
+                        
+                        <div class="code-block bg-gray-800 text-gray-100 p-4 rounded-lg mb-4 overflow-x-auto">
+                            <button class="copy-btn bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-sm" onclick="copyCode(this, 'code1')">
+                                <i class="fas fa-copy mr-1"></i> <span data-translate="copy_button">Copy</span>
+                            </button>
+                            <pre id="code1" class="whitespace-pre-wrap"><code>docker pull focker.ir/nginx</code></pre>
+                        </div>
+                        
+                        <p class="text-gray-600" data-translate="pull_note">This will pull the nginx image through our proxy mirror, which is typically much faster in Iran and nearby regions.</p>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="daemon">
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800" data-translate="daemon_title">Configure Docker Daemon</h3>
+                        <p class="mb-4 text-gray-600" data-translate="daemon_description">For permanent configuration, add Focker.ir as a registry mirror in your Docker daemon configuration:</p>
+                        
+                        <div class="code-block bg-gray-800 text-gray-100 p-4 rounded-lg mb-4 overflow-x-auto">
+                            <button class="copy-btn bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-sm" onclick="copyCode(this, 'code2')">
+                                <i class="fas fa-copy mr-1"></i> <span data-translate="copy_button">Copy</span>
+                            </button>
+                            <pre id="code2" class="whitespace-pre-wrap"><code>sudo tee /etc/docker/daemon.json &lt;&lt;EOF
+{
+  "registry-mirrors": ["https://focker.ir"]
+}
+EOF
+
+sudo systemctl restart docker</code></pre>
+                        </div>
+                        
+                        <p class="text-gray-600" data-translate="daemon_note">After applying this configuration, all your Docker pulls will automatically use Focker.ir mirror.</p>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="compose">
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800" data-translate="compose_title">Modify Docker Compose Files</h3>
+                        <p class="mb-4 text-gray-600" data-translate="compose_description">You can quickly modify existing docker-compose files to use Focker.ir mirror:</p>
+                        
+                        <h4 class="font-medium mt-4 mb-2 text-gray-800" data-translate="linux_label">Linux:</h4>
+                        <div class="code-block bg-gray-800 text-gray-100 p-4 rounded-lg mb-4 overflow-x-auto">
+                            <button class="copy-btn bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-sm" onclick="copyCode(this, 'code3')">
+                                <i class="fas fa-copy mr-1"></i> <span data-translate="copy_button">Copy</span>
+                            </button>
+                            <pre id="code3" class="whitespace-pre-wrap"><code>sed -i 's/^\s*image:\s*/&focker.ir\//g' docker-compose.yml</code></pre>
+                        </div>
+                        
+                        <h4 class="font-medium mt-4 mb-2 text-gray-800" data-translate="macos_label">macOS:</h4>
+                        <div class="code-block bg-gray-800 text-gray-100 p-4 rounded-lg mb-4 overflow-x-auto">
+                            <button class="copy-btn bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-sm" onclick="copyCode(this, 'code4')">
+                                <i class="fas fa-copy mr-1"></i> <span data-translate="copy_button">Copy</span>
+                            </button>
+                            <pre id="code4" class="whitespace-pre-wrap"><code>sed -i '' 's/^[[:space:]]*image:[[:space:]]*/image: focker.ir\//g' docker-compose.yml</code></pre>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="k8s">
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800" data-translate="k8s_title">Modify Kubernetes Deployment Files</h3>
+                        <p class="mb-4 text-gray-600" data-translate="k8s_description">Similar to docker-compose, you can modify Kubernetes deployment files:</p>
+                        
+                        <h4 class="font-medium mt-4 mb-2 text-gray-800" data-translate="linux_label">Linux:</h4>
+                        <div class="code-block bg-gray-800 text-gray-100 p-4 rounded-lg mb-4 overflow-x-auto">
+                            <button class="copy-btn bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-sm" onclick="copyCode(this, 'code5')">
+                                <i class="fas fa-copy mr-1"></i> <span data-translate="copy_button">Copy</span>
+                            </button>
+                            <pre id="code5" class="whitespace-pre-wrap"><code>sed -i 's/^\s*image:\s*/&focker.ir\//g' deployment.yml</code></pre>
+                        </div>
+                        
+                        <h4 class="font-medium mt-4 mb-2 text-gray-800" data-translate="macos_label">macOS:</h4>
+                        <div class="code-block bg-gray-800 text-gray-100 p-4 rounded-lg mb-4 overflow-x-auto">
+                            <button class="copy-btn bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-sm" onclick="copyCode(this, 'code6')">
+                                <i class="fas fa-copy mr-1"></i> <span data-translate="copy_button">Copy</span>
+                            </button>
+                            <pre id="code6" class="whitespace-pre-wrap"><code>sed -i '' 's/^[[:space:]]*image:[[:space:]]*/image: focker.ir\//g' deployment.yml</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800" data-translate="benefits_title">Why Use Focker.ir?</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition">
+                    <div class="text-primary text-4xl mb-4">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-800" data-translate="benefit1_title">Faster Downloads</h3>
+                    <p class="text-gray-600" data-translate="benefit1_desc">Our servers are optimized for the region, providing significantly faster download speeds compared to pulling directly from Docker Hub.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition">
+                    <div class="text-primary text-4xl mb-4">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-800" data-translate="benefit2_title">Reliable Access</h3>
+                    <p class="text-gray-600" data-translate="benefit2_desc">Avoid connectivity issues with Docker Hub by using our reliable mirror that's always available in the region.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition">
+                    <div class="text-primary text-4xl mb-4">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-800" data-translate="benefit3_title">Cost Effective</h3>
+                    <p class="text-gray-600" data-translate="benefit3_desc">Reduce your international bandwidth usage and save on networking costs by using our local mirror.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800" data-translate="faq_title">Frequently Asked Questions</h2>
+            
+            <div class="max-w-3xl mx-auto space-y-4">
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <button class="faq-btn w-full text-left p-4 bg-gray-50 hover:bg-gray-100 transition flex justify-between items-center">
+                        <span class="font-medium text-gray-800" data-translate="faq1_question">Is Focker.ir free to use?</span>
+                        <i class="fas fa-chevron-down transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden p-4 border-t border-gray-200 text-gray-600" data-translate="faq1_answer">
+                        Yes, Focker.ir is completely free to use for all Docker users in the region. We aim to support the developer community by providing faster access to Docker images.
+                    </div>
+                </div>
+                
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <button class="faq-btn w-full text-left p-4 bg-gray-50 hover:bg-gray-100 transition flex justify-between items-center">
+                        <span class="font-medium text-gray-800" data-translate="faq2_question">How often are images updated?</span>
+                        <i class="fas fa-chevron-down transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden p-4 border-t border-gray-200 text-gray-600" data-translate="faq2_answer">
+                        Our mirror updates images from Docker Hub every 6 hours. If you need the absolute latest version of an image, you can force a pull with the <code class="bg-gray-200 px-1 py-0.5 rounded">--no-cache</code> flag.
+                    </div>
+                </div>
+                
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <button class="faq-btn w-full text-left p-4 bg-gray-50 hover:bg-gray-100 transition flex justify-between items-center">
+                        <span class="font-medium text-gray-800" data-translate="faq3_question">Are all Docker Hub images available?</span>
+                        <i class="fas fa-chevron-down transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden p-4 border-t border-gray-200 text-gray-600" data-translate="faq3_answer">
+                        We mirror all public images from Docker Hub. If you find an image that's not available through our mirror, please contact us and we'll ensure it's added to our cache.
+                    </div>
+                </div>
+                
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <button class="faq-btn w-full text-left p-4 bg-gray-50 hover:bg-gray-100 transition flex justify-between items-center">
+                        <span class="font-medium text-gray-800" data-translate="faq4_question">Is my data secure when using Focker.ir?</span>
+                        <i class="fas fa-chevron-down transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden p-4 border-t border-gray-200 text-gray-600" data-translate="faq4_answer">
+                        We only cache public Docker images and don't store any personal data. All image checksums are verified against Docker Hub to ensure integrity. For private images, you should continue to use Docker Hub directly.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="fab fa-docker mr-2 rtl:ml-2 rtl:mr-0"></i> Focker.ir
+                    </h3>
+                    <p class="text-gray-400" data-translate="footer_description">Docker proxy mirror for faster image pulls in Iran and nearby regions.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4" data-translate="footer_links">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#usage" class="text-gray-400 hover:text-white transition" data-translate="nav_usage">Usage</a></li>
+                        <li><a href="#benefits" class="text-gray-400 hover:text-white transition" data-translate="nav_benefits">Benefits</a></li>
+                        <li><a href="#faq" class="text-gray-400 hover:text-white transition" data-translate="nav_faq">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4" data-translate="footer_contact">Contact</h3>
+                    <ul class="space-y-2">
+                        <!--- <li class="flex items-center text-gray-400">
+                            <i class="fas fa-envelope mr-2 rtl:ml-2 rtl:mr-0"></i> support@focker.ir
+			</li> -->
+                        <li class="flex items-center text-gray-400">
+				<i class="fab fa-telegram mr-2 rtl:ml-2 rtl:mr-0"></i><a href="https://telegram.me/focker_support"> @focker_support </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500">
+                <p data-translate="footer_copyright">&copy; 2023 Focker.ir - All rights reserved</p>
+            </div>
+        </div>
+    </footer>
 
     <script>
-      var mybutton = document.getElementById("myBtn");
-      window.onscroll = function () {
-        scrollFunction();
-      };
-      function scrollFunction() {
-        if (
-          document.body.scrollTop > 1000 ||
-          document.documentElement.scrollTop > 1000
-        ) {
-          mybutton.style.display = "block";
-        } else {
-          mybutton.style.display = "none";
-        }
-      }
-      function topFunction() {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        document.documentElement.scrollTo({ top: 0, behavior: "smooth" });
-      }
+        // Translation dictionary
+        const translations = {
+            en: {
+                nav_usage: "Usage",
+                nav_benefits: "Benefits",
+                nav_faq: "FAQ",
+                hero_title: "Docker Proxy Mirror",
+                hero_subtitle: "Accelerate your Docker pulls with Focker.ir proxy mirror in Iran and nearby regions",
+                hero_button1: "Get Started",
+                hero_button2: "Learn More",
+                usage_title: "How to Use Focker.ir",
+                tab_pull: "Pull Command",
+                tab_daemon: "Daemon Config",
+                tab_compose: "Docker Compose",
+                tab_k8s: "Kubernetes",
+                pull_title: "Direct Pull Command",
+                pull_description: "Simply prefix your image name with focker.ir/ when pulling images:",
+                pull_note: "This will pull the nginx image through our proxy mirror, which is typically much faster in Iran and nearby regions.",
+                daemon_title: "Configure Docker Daemon",
+                daemon_description: "For permanent configuration, add Focker.ir as a registry mirror in your Docker daemon configuration:",
+                daemon_note: "After applying this configuration, all your Docker pulls will automatically use Focker.ir mirror.",
+                compose_title: "Modify Docker Compose Files",
+                compose_description: "You can quickly modify existing docker-compose files to use Focker.ir mirror:",
+                k8s_title: "Modify Kubernetes Deployment Files",
+                k8s_description: "Similar to docker-compose, you can modify Kubernetes deployment files:",
+                linux_label: "Linux:",
+                macos_label: "macOS:",
+                benefits_title: "Why Use Focker.ir?",
+                benefit1_title: "Faster Downloads",
+                benefit1_desc: "Our servers are optimized for the region, providing significantly faster download speeds compared to pulling directly from Docker Hub.",
+                benefit2_title: "Reliable Access",
+                benefit2_desc: "Avoid connectivity issues with Docker Hub by using our reliable mirror that's always available in the region.",
+                benefit3_title: "Cost Effective",
+                benefit3_desc: "Reduce your international bandwidth usage and save on networking costs by using our local mirror.",
+                faq_title: "Frequently Asked Questions",
+                faq1_question: "Is Focker.ir free to use?",
+                faq1_answer: "Yes, Focker.ir is completely free to use for all Docker users in the region. We aim to support the developer community by providing faster access to Docker images.",
+                faq2_question: "How often are images updated?",
+                faq2_answer: "Our mirror updates images from Docker Hub every 6 hours. If you need the absolute latest version of an image, you can force a pull with the --no-cache flag.",
+                faq3_question: "Are all Docker Hub images available?",
+                faq3_answer: "We mirror all public images from Docker Hub. If you find an image that's not available through our mirror, please contact us and we'll ensure it's added to our cache.",
+                faq4_question: "Is my data secure when using Focker.ir?",
+                faq4_answer: "We only cache public Docker images and don't store any personal data. All image checksums are verified against Docker Hub to ensure integrity. For private images, you should continue to use Docker Hub directly.",
+                footer_description: "Docker proxy mirror for faster image pulls in Iran and nearby regions.",
+                footer_links: "Quick Links",
+                footer_contact: "Contact",
+                footer_copyright: "© 2023 Focker.ir - All rights reserved",
+                copy_button: "Copy"
+            },
+            fa: {
+                nav_usage: "راهنمای استفاده",
+                nav_benefits: "مزایا",
+                nav_faq: "سوالات متداول",
+                hero_title: "پروکسی سریع داکر",
+                hero_subtitle: "دانلود سریع ایمیج های داکر از داکر هاب و سایر رجیستری های معتبر",
+                hero_button1: "شروع کنید",
+                hero_button2: "اطلاعات بیشتر",
+                usage_title: "نحوه استفاده از Focker.ir",
+                tab_pull: "دستور پول",
+                tab_daemon: "پیکربندی دیمون",
+                tab_compose: "داکر کامپوز",
+                tab_k8s: "کوبرنتیز",
+                pull_title: "دستور مستقیم پول",
+                pull_description: "کافیست قبل از نام ایمیج عبارت focker.ir/ را اضافه کنید:",
+                pull_note: "این کار ایمیج nginx را از طریق پروکسی ما دانلود می‌کند که معمولاً در ایران و مناطق اطراف بسیار سریع‌تر است.",
+                daemon_title: "پیکربندی دیمون داکر",
+                daemon_description: "برای پیکربندی دائمی، Focker.ir را به عنوان رجیستری در پیکربندی دیمون داکر اضافه کنید:",
+                daemon_note: "پس از اعمال این پیکربندی، تمام دانلودهای داکر شما به طور خودکار از Focker.ir استفاده خواهند کرد.",
+                compose_title: "تغییر فایل‌های داکر کامپوز",
+                compose_description: "می‌توانید فایل‌های موجود docker-compose را برای استفاده از Focker.ir تغییر دهید:",
+                k8s_title: "تغییر فایل‌های استقرار کوبرنتیز",
+                k8s_description: "مشابه داکر کامپوز، می‌توانید فایل‌های استقرار کوبرنتیز را تغییر دهید:",
+                linux_label: "لینوکس:",
+                macos_label: "مک:",
+                benefits_title: "چرا از Focker.ir استفاده کنیم؟",
+                benefit1_title: "دانلود سریع‌تر",
+                benefit1_desc: "سرورهای ما برای این منطقه بهینه‌سازی شده‌اند و سرعت دانلود بسیار بالاتری نسبت به دانلود مستقیم از Docker Hub ارائه می‌دهند.",
+                benefit2_title: "دسترسی مطمئن",
+                benefit2_desc: "با استفاده از پروکسی قابل اعتماد ما که همیشه در منطقه در دسترس است، از مشکلات اتصال به Docker Hub جلوگیری کنید.",
+                benefit3_title: "مقرون به صرفه",
+                benefit3_desc: "با استفاده از پروکسی محلی ما، مصرف پهنای باند بین‌المللی را کاهش داده و در هزینه‌های شبکه صرفه‌جویی کنید.",
+                faq_title: "سوالات متداول",
+                faq1_question: "آیا استفاده از Focker.ir رایگان است؟",
+                faq1_answer: "بله، Focker.ir کاملاً رایگان است و تمام کاربران داکر در منطقه می‌توانند از آن استفاده کنند. هدف ما حمایت از جامعه توسعه‌دهندگان با ارائه دسترسی سریع‌تر به ایمیج های داکر است.",
+                faq2_question: "ایمیج ها هر چند وقت یکبار به‌روز می‌شوند؟",
+                faq2_answer: " فوکر ایمیج ها را هر 6 ساعت از Docker Hub به‌روز می‌کند. اگر به آخرین نسخه یک ایمیج نیاز دارید، می‌توانید با فلگ --no-cache آن را مجبور به دانلود کنید.",
+                faq3_question: "آیا تمام ایمیج های Docker Hub موجود هستند؟",
+                faq3_answer: "ما تمام ایمیج های عمومی Docker Hub را پروکسی می‌کنیم. اگر ایمیجی را پیدا کردید که از طریق فوکر در دسترس نیست، لطفاً با ما تماس بگیرید تا آن را به کش خود اضافه کنیم.",
+                faq4_question: "آیا داده‌های من هنگام استفاده از Focker.ir امن هستند؟",
+                faq4_answer: "ما فقط ایمیج های عمومی داکر را کش می‌کنیم و هیچ داده شخصی را ذخیره نمی‌کنیم. تمام چک‌سام‌های ایمیج در برابر Docker Hub تأیید می‌شوند تا از صحت آن‌ها اطمینان حاصل شود. برای ایمیج های خصوصی، باید همچنان مستقیماً از Docker Hub استفاده کنید.",
+                footer_description: "فوکر یک پروکسی رایگان داکر برای دانلود سریع‌تر ایمیج در ایران و مناطق اطراف",
+                footer_links: "لینک‌های سریع",
+                footer_contact: "تماس با ما",
+                footer_copyright: "© 2023 Focker.ir - تمام حقوق محفوظ است",
+                copy_button: "کپی"
+            }
+        };
 
-      document.addEventListener("DOMContentLoaded", () => {
-        document.querySelector("#mode").addEventListener("click", () => {
-          document.querySelector("html").classList.toggle("dark");
+        // Tab functionality
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons and contents
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                // Show corresponding content
+                const tabId = btn.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
         });
-      });
+        
+        // FAQ accordion
+        const faqBtns = document.querySelectorAll('.faq-btn');
+        faqBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const content = btn.nextElementSibling;
+                const icon = btn.querySelector('i');
+                
+                if (content.classList.contains('hidden')) {
+                    content.classList.remove('hidden');
+                    icon.classList.add('rotate-180');
+                } else {
+                    content.classList.add('hidden');
+                    icon.classList.remove('rotate-180');
+                }
+            });
+        });
+        
+        // Copy code functionality
+        function copyCode(btn, codeId) {
+            const code = document.getElementById(codeId).textContent;
+            navigator.clipboard.writeText(code.trim());
+            
+            // Visual feedback
+            const copyText = document.querySelector('[data-translate="copy_button"]').textContent;
+            btn.innerHTML = '<i class="fas fa-check mr-1"></i> ' + (currentLang === 'fa' ? 'کپی شد!' : 'Copied!');
+            btn.classList.add('copied');
+            
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-copy mr-1"></i> ' + copyText;
+                btn.classList.remove('copied');
+            }, 2000);
+        }
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Language selector functionality
+        let currentLang = 'en';
+        
+        function changeLanguage(lang) {
+            currentLang = lang;
+            const body = document.getElementById('body');
+            const currentLanguage = document.getElementById('current-language');
+            
+            if (lang === 'fa') {
+                body.setAttribute('dir', 'rtl');
+                currentLanguage.textContent = 'فارسی';
+                // Apply Persian translations
+                applyTranslations('fa');
+            } else {
+                body.setAttribute('dir', 'ltr');
+                currentLanguage.textContent = 'English';
+                // Apply English translations
+                applyTranslations('en');
+            }
+            
+            // Close the dropdown
+            document.querySelector('.language-dropdown').classList.add('hidden');
+        }
+
+        function applyTranslations(lang) {
+            // Get all elements with data-translate attribute
+            const elements = document.querySelectorAll('[data-translate]');
+            
+            elements.forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[lang] && translations[lang][key]) {
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.value = translations[lang][key];
+                    } else {
+                        element.innerHTML = translations[lang][key];
+                    }
+                }
+            });
+        }
+
+        // Keep dropdown open when hovering
+        document.querySelector('.language-selector').addEventListener('mouseenter', function() {
+            document.querySelector('.language-dropdown').classList.remove('hidden');
+        });
+
+        document.querySelector('.language-selector').addEventListener('mouseleave', function() {
+            document.querySelector('.language-dropdown').classList.add('hidden');
+        });
     </script>
-
-    <div id="wrapper">
-      <div id="mode">
-        <div class="dark">
-          <svg aria-hidden="true" viewBox="0 0 512 512">
-            <title>lightmode</title>
-            <path
-              fill="currentColor"
-              d="M256 160c-52.9 0-96 43.1-96 96s43.1 96 96 96 96-43.1 96-96-43.1-96-96-96zm246.4 80.5l-94.7-47.3 33.5-100.4c4.5-13.6-8.4-26.5-21.9-21.9l-100.4 33.5-47.4-94.8c-6.4-12.8-24.6-12.8-31 0l-47.3 94.7L92.7 70.8c-13.6-4.5-26.5 8.4-21.9 21.9l33.5 100.4-94.7 47.4c-12.8 6.4-12.8 24.6 0 31l94.7 47.3-33.5 100.5c-4.5 13.6 8.4 26.5 21.9 21.9l100.4-33.5 47.3 94.7c6.4 12.8 24.6 12.8 31 0l47.3-94.7 100.4 33.5c13.6 4.5 26.5-8.4 21.9-21.9l-33.5-100.4 94.7-47.3c13-6.5 13-24.7.2-31.1zm-155.9 106c-49.9 49.9-131.1 49.9-181 0-49.9-49.9-49.9-131.1 0-181 49.9-49.9 131.1-49.9 181 0 49.9 49.9 49.9 131.1 0 181z"
-            ></path>
-          </svg>
-        </div>
-        <div class="light">
-          <svg aria-hidden="true" viewBox="0 0 512 512">
-            <title>darkmode</title>
-            <path
-              fill="currentColor"
-              d="M283.211 512c78.962 0 151.079-35.925 198.857-94.792 7.068-8.708-.639-21.43-11.562-19.35-124.203 23.654-238.262-71.576-238.262-196.954 0-72.222 38.662-138.635 101.498-174.394 9.686-5.512 7.25-20.197-3.756-22.23A258.156 258.156 0 0 0 283.211 0c-141.309 0-256 114.511-256 256 0 141.309 114.511 256 256 256z"
-            ></path>
-          </svg>
-        </div>
-      </div>
-
-      <div class="container">
-        <section id="top" class="section docs-heading">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="big-title text-center">
-                <h1>خوش امدید به focker</h1>
-                <p class="lead">سرویس داکر</p>
-              </div>
-            </div>
-          </div>
-          <hr />
-        </section>
-
-        <div class="row">
-          <div class="col-md-9">
-            <section id="line1" class="section">
-              <div class="row">
-                <div class="col-md-12">
-                  <h2>سرویس پروکسی رایگان داکر</h2>
-                  <h2>
-                    با سرویس فوکر به راحتی می توانید ایمیج های داکر را بدون هیچ
-                    محدودیتی دریافت کنید.
-                  </h2>
-
-                  <h4>استفاده در runtime :</h4>
-                  <h4>بجای</h4>
-                  <pre class="brush: html; highlight: [2,4]">
-                                  docker pull nginx
-                                </pre
-                  >
-                  <h4>بزنید</h4>
-                  <pre class="brush: html; highlight: [2,4]">
-                                  docker pull focker.ir/nginx
-                                </pre
-                  >
-                  <h4>استفاده در کانفیگ داکر :</h4>
-                  <h4>فایل زیر را ادیت کنید</h4>
-                  <pre class="brush: html; highlight: [2,4]">
-/etc/docker/daemon.json</pre
-                  >
-                  <h4>این مقدار را وارد کنید</h4>
-                  <pre class="brush: html; highlight: [2,4]">
-                                  { "registry-mirrors": [ "https://focker.ir" ] }
-                                </pre
-                  >
-                  <h4>سپس داکر را ریستارت کنید</h4>
-                  <pre class="brush: html; highlight: [2,4]">
-                                  systemctl restart docker
-                                </pre
-                  >
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <h2>چطور تمام ایمیج های یک فایل داکر کامپوز را جایگزین کنیم</h2>
-                  <h4>برای این کار از دستور زیر استفاده کنید </h4>
-                  <pre class="brush: html; highlight: [2,4]">
-                    sed -i 's/^\s*image:\s*/&focker.ir\//g' docker-compose.yml
-                  </pre>
-                    # برای دیپلویمنت ها
-                  <pre class="brush: html; highlight: [2,4]">
-                    sed -i '' 's/^\s*image:\s*/&focker.ir\//g' deployments.yml
-                  </pre>
-                  اگر از مک استفاده می کنید، از دستور sed زیر استفاده کنید:
-                  <pre class="brush: html; highlight: [2,4]">
-                    sed -i '' 's/^[[:space:]]*image:[[:space:]]*/image: focker.ir\//g' docker-compose.yml
-                </div>
-            </section>
-
-            <section id="line2" class="section">
-              <div>
-                <div class="row">
-                  <div class="col-md-12 left-align">
-                    <h2 class="dark-text">درباره ما</h2>
-                  </div>
-                </div>
-
-                <hr />
-                <p>
-                  ما یک تیم جوان و خلاق هستیم که در زمینه توسعه نرم افزار و
-                  سرویس های ابری فعالیت می کنیم.
-                </p>
-                <a href="https://weekendguys.ir" >تیم ما</a> 
-                <hr />
-              </div>
-            </section>
-
-            <section id="line11" class="section">
-              <div class="row">
-                <div class="col-md-12 sponsor">
-                  <p>
-                    شرکت مبین هاست اولین اسپانسر ما برای ارایه این خدمات به شما
-                    می باشد.
-                  </p>
-                  <p>لطفا از این شرکت حمایت کنید.</p>
-                  <a href="https://www.mobinhost.com/">MobinHost</a>
-
-                  <br />
-
-                  <p>این سایت با افتخار از فونت وزیر استفاده می کند.</p>
-                  <p>
-                    صابر راستی کردار عزیز جای خالی تو در قلب ما همیشه باقی خواهد
-                    ماند.
-                  </p>
-                  <a href="https://rastikerdar.blog.ir/"
-                    >بلاگ صابر راستی کردار</a
-                  >
-                </div>
-                <!-- end col -->
-              </div>
-              <!-- end row -->
-            </section>
-            <!-- end section -->
-          </div>
-          <!-- // end .col -->
-        </div>
-        <!-- // end .row -->
-      </div>
-      <!-- // end container -->
-    </div>
-    <!-- end wrapper -->
-
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/retina.js"></script>
-    <script src="js/jquery.fitvids.js"></script>
-    <script src="js/wow.js"></script>
-    <script src="js/jquery.prettyPhoto.js"></script>
-
-    <!-- CUSTOM PLUGINS -->
-    <script src="js/custom.js"></script>
-    <script src="js/main.js"></script>
-
-    <script src="js/syntax-highlighter/scripts/shCore.js"></script>
-    <script src="js/syntax-highlighter/scripts/shBrushXml.js"></script>
-    <script src="js/syntax-highlighter/scripts/shBrushCss.js"></script>
-    <script src="js/syntax-highlighter/scripts/shBrushJScript.js"></script>
-  </body>
+</body>
 </html>
