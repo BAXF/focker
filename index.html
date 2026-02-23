@@ -126,6 +126,7 @@
                     <button class="tab-btn active py-3 px-6 font-medium text-primary border-b-2 border-primary" data-tab="pull" data-translate="tab_pull">Pull Command</button>
                     <button class="tab-btn py-3 px-6 font-medium text-gray-500 hover:text-primary" data-tab="daemon" data-translate="tab_daemon">Daemon Config</button>
                     <button class="tab-btn py-3 px-6 font-medium text-gray-500 hover:text-primary" data-tab="compose" data-translate="tab_compose">Docker Compose</button>
+                    <button class="tab-btn py-3 px-6 font-medium text-gray-500 hover:text-primary" data-tab="helm" data-translate="tab_helm">Helm</button>
                     <button class="tab-btn py-3 px-6 font-medium text-gray-500 hover:text-primary" data-tab="k8s" data-translate="tab_k8s">Kubernetes</button>
                 </div>
                 
@@ -188,6 +189,36 @@ sudo systemctl restart docker</code></pre>
                             </button>
                             <pre id="code4" class="whitespace-pre-wrap"><code>sed -i '' 's/^[[:space:]]*image:[[:space:]]*/image: focker.ir\//g' docker-compose.yml</code></pre>
                         </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="helm">
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800" data-translate="helm_title">Helm Values (Image Registry)</h3>
+                        <p class="mb-4 text-gray-600" data-translate="helm_description">Set your chart values to pull container images from Focker.ir by prefixing the image repository:</p>
+
+                        <h4 class="font-medium mt-4 mb-2 text-gray-800" data-translate="helm_values_label">values.yaml:</h4>
+                        <div class="code-block bg-gray-800 text-gray-100 p-4 rounded-lg mb-4 overflow-x-auto">
+                            <button class="copy-btn bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-sm" onclick="copyCode(this, 'code7')">
+                                <i class="fas fa-copy mr-1"></i> <span data-translate="copy_button">Copy</span>
+                            </button>
+                            <pre id="code7" class="whitespace-pre-wrap"><code>image:
+  repository: focker.ir/nginx
+  tag: "1.25.3"
+  pullPolicy: IfNotPresent</code></pre>
+                        </div>
+
+                        <h4 class="font-medium mt-4 mb-2 text-gray-800" data-translate="helm_set_label">CLI override:</h4>
+                        <div class="code-block bg-gray-800 text-gray-100 p-4 rounded-lg mb-4 overflow-x-auto">
+                            <button class="copy-btn bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-sm" onclick="copyCode(this, 'code8')">
+                                <i class="fas fa-copy mr-1"></i> <span data-translate="copy_button">Copy</span>
+                            </button>
+                            <pre id="code8" class="whitespace-pre-wrap"><code>helm upgrade --install my-app ./chart \
+  --set image.repository=focker.ir/nginx \
+  --set image.tag=1.25.3</code></pre>
+                        </div>
+
+                        <p class="text-gray-600" data-translate="helm_note">Use the Focker.ir prefix for any image your chart pulls from public registries.</p>
                     </div>
                 </div>
                 
@@ -361,6 +392,7 @@ sudo systemctl restart docker</code></pre>
                 tab_pull: "Pull Command",
                 tab_daemon: "Daemon Config",
                 tab_compose: "Docker Compose",
+                tab_helm: "Helm",
                 tab_k8s: "Kubernetes",
                 pull_title: "Direct Pull Command",
                 pull_description: "Simply prefix your image name with focker.ir/ when pulling images:",
@@ -370,6 +402,11 @@ sudo systemctl restart docker</code></pre>
                 daemon_note: "After applying this configuration, all your Docker pulls will automatically use Focker.ir mirror.",
                 compose_title: "Modify Docker Compose Files",
                 compose_description: "You can quickly modify existing docker-compose files to use Focker.ir mirror:",
+                helm_title: "Helm Values (Image Registry)",
+                helm_description: "Set your chart values to pull container images from Focker.ir by prefixing the image repository:",
+                helm_values_label: "values.yaml:",
+                helm_set_label: "CLI override:",
+                helm_note: "Use the Focker.ir prefix for any image your chart pulls from public registries.",
                 k8s_title: "Modify Kubernetes Deployment Files",
                 k8s_description: "Similar to docker-compose, you can modify Kubernetes deployment files:",
                 linux_label: "Linux:",
@@ -410,6 +447,7 @@ sudo systemctl restart docker</code></pre>
                 tab_pull: "دستور پول",
                 tab_daemon: "پیکربندی دیمون",
                 tab_compose: "داکر کامپوز",
+                tab_helm: "هلم",
                 tab_k8s: "کوبرنتیز",
                 pull_title: "دستور مستقیم پول",
                 pull_description: "کافیست قبل از نام ایمیج عبارت focker.ir/ را اضافه کنید:",
@@ -419,6 +457,11 @@ sudo systemctl restart docker</code></pre>
                 daemon_note: "پس از اعمال این پیکربندی، تمام دانلودهای داکر شما به طور خودکار از Focker.ir استفاده خواهند کرد.",
                 compose_title: "تغییر فایل‌های داکر کامپوز",
                 compose_description: "می‌توانید فایل‌های موجود docker-compose را برای استفاده از Focker.ir تغییر دهید:",
+                helm_title: "هلم (رجیستری ایمیج)",
+                helm_description: "در values چارت، نام رجیستری ایمیج را با focker.ir پیشوند کنید:",
+                helm_values_label: "values.yaml:",
+                helm_set_label: "جایگزینی با CLI:",
+                helm_note: "برای هر ایمیج عمومی که چارت دریافت می کند، از پیشوند Focker.ir استفاده کنید.",
                 k8s_title: "تغییر فایل‌های استقرار کوبرنتیز",
                 k8s_description: "مشابه داکر کامپوز، می‌توانید فایل‌های استقرار کوبرنتیز را تغییر دهید:",
                 linux_label: "لینوکس:",
