@@ -153,6 +153,53 @@
                         </div>
                         
                         <p class="text-gray-600" data-translate="pull_note">This will pull the nginx image through our proxy mirror, which is typically much faster in Iran and nearby regions.</p>
+
+                        <h4 class="font-medium mt-6 mb-3 text-gray-800" data-translate="registries_title">Supported Registries</h4>
+                        <p class="mb-4 text-gray-600" data-translate="registries_description">Focker supports pulling from multiple container registries. Use the registry prefix to specify the source:</p>
+
+                        <div class="space-y-3 mb-4">
+                            <div class="bg-white p-3 rounded border border-gray-200">
+                                <p class="font-medium text-gray-800 text-sm" data-translate="registry_dockerhub">Docker Hub (Default)</p>
+                                <p class="text-gray-600 text-sm mt-1"><code class="bg-gray-200 px-1 py-0.5 rounded">focker.ir/nginx</code></p>
+                            </div>
+                            <div class="bg-white p-3 rounded border border-gray-200">
+                                <p class="font-medium text-gray-800 text-sm" data-translate="registry_quay">Quay.io</p>
+                                <p class="text-gray-600 text-sm mt-1"><code class="bg-gray-200 px-1 py-0.5 rounded">focker.ir/quay.io/image</code></p>
+                            </div>
+                            <div class="bg-white p-3 rounded border border-gray-200">
+                                <p class="font-medium text-gray-800 text-sm" data-translate="registry_gcr">Google Container Registry (GCR)</p>
+                                <p class="text-gray-600 text-sm mt-1"><code class="bg-gray-200 px-1 py-0.5 rounded">focker.ir/gcr.io/image</code></p>
+                            </div>
+                            <div class="bg-white p-3 rounded border border-gray-200">
+                                <p class="font-medium text-gray-800 text-sm" data-translate="registry_k8s">Kubernetes Registry</p>
+                                <p class="text-gray-600 text-sm mt-1"><code class="bg-gray-200 px-1 py-0.5 rounded">focker.ir/registry.k8s.io/image</code></p>
+                            </div>
+                            <div class="bg-white p-3 rounded border border-gray-200">
+                                <p class="font-medium text-gray-800 text-sm" data-translate="registry_ghcr">GitHub Container Registry (GHCR)</p>
+                                <p class="text-gray-600 text-sm mt-1"><code class="bg-gray-200 px-1 py-0.5 rounded">focker.ir/ghcr.io/image</code></p>
+                            </div>
+                        </div>
+
+                        <h4 class="font-medium mt-6 mb-3 text-gray-800" data-translate="registry_examples">Examples</h4>
+                        <div class="code-block bg-gray-800 text-gray-100 p-4 rounded-lg overflow-x-auto">
+                            <button class="copy-btn bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-sm" onclick="copyCode(this, 'code_registries')">
+                                <i class="fas fa-copy mr-1"></i> <span data-translate="copy_button">Copy</span>
+                            </button>
+                            <pre id="code_registries" class="whitespace-pre-wrap"><code># Docker Hub
+docker pull focker.ir/ubuntu:latest
+
+# Quay.io
+docker pull focker.ir/quay.io/coreos/etcd:latest
+
+# Google Container Registry
+docker pull focker.ir/gcr.io/kubernetes-helm/tiller:latest
+
+# Kubernetes Registry
+docker pull focker.ir/registry.k8s.io/pause:latest
+
+# GitHub Container Registry
+docker pull focker.ir/ghcr.io/owner/repo:latest</code></pre>
+                        </div>
                     </div>
                 </div>
                 
@@ -416,6 +463,14 @@ sudo systemctl restart docker</code></pre>
                 pull_title: "Direct Pull Command",
                 pull_description: "Simply prefix your image name with focker.ir/ when pulling images:",
                 pull_note: "This will pull the nginx image through our proxy mirror, which is typically much faster in Iran and nearby regions.",
+                registries_title: "Supported Registries",
+                registries_description: "Focker supports pulling from multiple container registries. Use the registry prefix to specify the source:",
+                registry_dockerhub: "Docker Hub (Default)",
+                registry_quay: "Quay.io",
+                registry_gcr: "Google Container Registry (GCR)",
+                registry_k8s: "Kubernetes Registry",
+                registry_ghcr: "GitHub Container Registry (GHCR)",
+                registry_examples: "Examples",
                 daemon_title: "Configure Docker Daemon",
                 daemon_description: "For permanent configuration, add Focker.ir as a registry mirror in your Docker daemon configuration:",
                 daemon_note: "After applying this configuration, all your Docker pulls will automatically use Focker.ir mirror.",
@@ -471,6 +526,14 @@ sudo systemctl restart docker</code></pre>
                 pull_title: "دستور مستقیم پول",
                 pull_description: "کافیست قبل از نام ایمیج عبارت focker.ir/ را اضافه کنید:",
                 pull_note: "این کار ایمیج nginx را از طریق پروکسی ما دانلود می‌کند که معمولاً در ایران و مناطق اطراف بسیار سریع‌تر است.",
+                registries_title: "رجیستری‌های پشتیبانی‌شده",
+                registries_description: "فوکر از رجیستری‌های متعددی برای دانلود ایمیج پشتیبانی می‌کند. برای مشخص کردن منبع، از پیشوند رجیستری استفاده کنید:",
+                registry_dockerhub: "داکر هاب (پیش‌فرض)",
+                registry_quay: "Quay.io",
+                registry_gcr: "رجیستری کانتینر گوگل (GCR)",
+                registry_k8s: "رجیستری کوبرنتیز",
+                registry_ghcr: "رجیستری کانتینر گیت‌هاب (GHCR)",
+                registry_examples: "نمونه‌ها",
                 daemon_title: "پیکربندی دیمون داکر",
                 daemon_description: "برای پیکربندی دائمی، Focker.ir را به عنوان رجیستری در پیکربندی دیمون داکر اضافه کنید:",
                 daemon_note: "پس از اعمال این پیکربندی، تمام دانلودهای داکر شما به طور خودکار از Focker.ir استفاده خواهند کرد.",
